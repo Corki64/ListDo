@@ -13,10 +13,19 @@ class ListDoViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defaults.array(forKey: "DoListArray") as? [String] {
+            itemArray = items
+        }
+        
     }
 
     
     var itemArray = ["Learn to program", "Do not catch Covid-19", "Go on vacation"]
+    
+    let defaults = UserDefaults.standard
+    
+    
 
     
     
@@ -65,6 +74,8 @@ class ListDoViewController: UITableViewController {
             // What will happen once user clicks Add Item button on UIAlert
             // This will append the data entered into my array
             self.itemArray.append(textField.text!)
+            
+            self.defaults.setValue(self.itemArray, forKey: "DoListArray")
             
             // Once data has been added to the array we will need to reload the data to display on our tableview
             self.tableView.reloadData()

@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // First thing that happens when you app loads - before viewDidLoad
         
+        
         return true
     }
 
