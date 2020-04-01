@@ -10,22 +10,55 @@ import UIKit
 
 class ListDoViewController: UITableViewController {
 
+    
+    var itemArray = [Item]()
+//    var itemArray = ["Learn to program", "Do not catch Covid-19", "Go on vacation"]
+    
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        if let items = defaults.array(forKey: "DoListArray") as? [String] {
-            itemArray = items
-        }
+        let newItem1 = Item()
+        newItem1.title = "Learn to Program"
+        itemArray.append(newItem1)
         
-    }
-
-    
-    var itemArray = ["Learn to program", "Do not catch Covid-19", "Go on vacation"]
-    
-    let defaults = UserDefaults.standard
-    
-    
+        let newItem2 = Item()
+        newItem2.title = "Do not catch Covid-19"
+        itemArray.append(newItem2)
+        
+        let newItem3 = Item()
+        newItem3.title = "Go on Vacation!"
+        itemArray.append(newItem3)
+        
+        itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+                itemArray.append(newItem3)
+        
+        
+        
+//        if let items = defaults.array(forKey: "DoListArray") as? [String] {
+//            itemArray = items
+//        }
+        
+    }    
 
     
     
@@ -40,9 +73,15 @@ class ListDoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListDoCell", for: indexPath)
         
-        cell.textLabel?.text = itemArray[indexPath.row]
+        
+        let item = itemArray[indexPath.row]
+        cell.textLabel?.text = item.title
+        
+        cell.accessoryType = item.done ? .checkmark : .none
         
         return cell
     }
@@ -51,12 +90,10 @@ class ListDoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // This will add a checkmark to a selected row - if row already has a checkmark - it will delete the checkmark.
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        // Changes the checkmark property to be the opposite of the current value.
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+        tableView.reloadData()
         
         // This will only animate the cell when it is initially clicked but it will return to normal afterwards.
         tableView.deselectRow(at: indexPath, animated: true)
@@ -71,9 +108,15 @@ class ListDoViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Do", message:"", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Do", style: .default) { (action) in
+            
+            
             // What will happen once user clicks Add Item button on UIAlert
             // This will append the data entered into my array
-            self.itemArray.append(textField.text!)
+            
+            let newItem = Item()
+            newItem.title = textField.text!
+            
+            self.itemArray.append(newItem)
             
             self.defaults.setValue(self.itemArray, forKey: "DoListArray")
             
