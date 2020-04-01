@@ -16,7 +16,7 @@ class ListDoViewController: UITableViewController {
     }
 
     
-    let itemArray = ["Learn to program", "Do not catch Covid-19", "Go on vacation"]
+    var itemArray = ["Learn to program", "Do not catch Covid-19", "Go on vacation"]
 
     
     
@@ -52,6 +52,34 @@ class ListDoViewController: UITableViewController {
         // This will only animate the cell when it is initially clicked but it will return to normal afterwards.
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    // MARK: - Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Do", message:"", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Do", style: .default) { (action) in
+            // What will happen once user clicks Add Item button on UIAlert
+            // This will append the data entered into my array
+            self.itemArray.append(textField.text!)
+            
+            // Once data has been added to the array we will need to reload the data to display on our tableview
+            self.tableView.reloadData()
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new Do"
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 
 }
 
