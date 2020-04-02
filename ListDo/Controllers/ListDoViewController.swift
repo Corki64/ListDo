@@ -12,49 +12,20 @@ class ListDoViewController: UITableViewController {
 
     
     var itemArray = [Item]()
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Do.plist")
+    
 //    var itemArray = ["Learn to program", "Do not catch Covid-19", "Go on vacation"]
     
-    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let newItem1 = Item()
-        newItem1.title = "Learn to Program"
-        itemArray.append(newItem1)
         
-        let newItem2 = Item()
-        newItem2.title = "Do not catch Covid-19"
-        itemArray.append(newItem2)
+        loadItems()
         
-        let newItem3 = Item()
-        newItem3.title = "Go on Vacation!"
-        itemArray.append(newItem3)
-        
-        itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-                itemArray.append(newItem3)
-        
-        
-        
-//        if let items = defaults.array(forKey: "DoListArray") as? [String] {
+        // Deprecated line of code used in the implementation of userDefault plist.
+//        if let items = defaults.array(forKey: "DoListArray") as? [Item] {
 //            itemArray = items
 //        }
         
@@ -93,7 +64,7 @@ class ListDoViewController: UITableViewController {
         // Changes the checkmark property to be the opposite of the current value.
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        tableView.reloadData()
+        saveItems()
         
         // This will only animate the cell when it is initially clicked but it will return to normal afterwards.
         tableView.deselectRow(at: indexPath, animated: true)
@@ -104,11 +75,8 @@ class ListDoViewController: UITableViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         var textField = UITextField()
-        
         let alert = UIAlertController(title: "Add New Do", message:"", preferredStyle: .alert)
-        
         let action = UIAlertAction(title: "Add Do", style: .default) { (action) in
-            
             
             // What will happen once user clicks Add Item button on UIAlert
             // This will append the data entered into my array
@@ -118,7 +86,7 @@ class ListDoViewController: UITableViewController {
             
             self.itemArray.append(newItem)
             
-            self.defaults.setValue(self.itemArray, forKey: "DoListArray")
+            self.saveItems()
             
             // Once data has been added to the array we will need to reload the data to display on our tableview
             self.tableView.reloadData()
@@ -134,7 +102,34 @@ class ListDoViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    // Function will encode an object to save on a plist // Will also reload tableView data for screen update.
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("Error encoding item array, \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Error decoding item array, \(error)")
+            }
+        }
+    }
+    
 
+    
+    
 }
 
 
