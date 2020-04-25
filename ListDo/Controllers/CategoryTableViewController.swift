@@ -7,15 +7,16 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryTableViewController: UITableViewController {
     
+    let realm = try! Realm()
     
-    var categoryArray = [Category]()
+    var categoryArray : Results<Category>?
     
 
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
 
@@ -23,7 +24,7 @@ class CategoryTableViewController: UITableViewController {
         super.viewDidLoad()
 
         loadCategories()
-
+        tableView.separatorStyle = .none
     }
     
     //MARK: - TableView DataSource Methods - Information to dispaly in our category tableView
@@ -32,13 +33,13 @@ class CategoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryArray.count
+        return categoryArray?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         
-        cell.textLabel?.text = categoryArray[indexPath.row].name
+        cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No List's Added"
 //        let category = categoryArray[indexPath.row].name
 //        cell.textLabel?.text = category.name
         return cell
@@ -51,13 +52,14 @@ class CategoryTableViewController: UITableViewController {
         
         var textField = UITextField()
         let alert = UIAlertController(title: "List of Do's", message: "", preferredStyle: .alert)
+        
+        
         let action = UIAlertAction(title: "Add Do's", style: .default) { (action) in
             
-            let newCategory = Category(context: self.context)
+            let newCategory = Category()
             newCategory.name = textField.text!
             
-            self.categoryArray.append(newCategory)
-            self.saveCategories()
+            self.save(category: newCategory)
         }
         
         alert.addTextField { (alertTextField) in
@@ -72,27 +74,33 @@ class CategoryTableViewController: UITableViewController {
     
     //MARK: -  Utility methods - used to save and load data through our context
     
-    func saveCategories() {
+    func save(category: Category) {
         do {
-            try self.context.save()
+            try realm.write {
+                realm.add(category)
+            }
         } catch {
-            print("Error saving list of do's in context. \(error)")
+            print("Error saving category \(error)")
         }
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     func loadCategories() {
         
-        // header for use in extension - implementation of searchBar func
-//    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
-        let request  : NSFetchRequest<Category> = Category.fetchRequest()
+//        // header for use in extension - implementation of searchBar func
+////    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
+//        let request  : NSFetchRequest<Category> = Category.fetchRequest()
+//        
+//        do {
+//            categoryArray = try context.fetch(request)
+//        } catch {
+//            print("Error fetching categorie list from context. \(error)")
+//        }
+//        tableView.reloadData()
         
-        do {
-            categoryArray = try context.fetch(request)
-        } catch {
-            print("Error fetching categorie list from context. \(error)")
-        }
+        let categoryArray = realm.objects(Category.self)
         tableView.reloadData()
+        
     }
     
 
@@ -110,7 +118,7 @@ class CategoryTableViewController: UITableViewController {
         let destinationVC = segue.destination as! ListDoViewController
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categoryArray[indexPath.row]
+            destinationVC.selectedCategory = categoryArray?[indexPath.row]
         }
     }
 

@@ -14,8 +14,9 @@
 		E6553E912432E0930010BE4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6553E8F2432E0930010BE4C /* Main.storyboard */; };
 		E6553E932432E0970010BE4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6553E922432E0970010BE4C /* Assets.xcassets */; };
 		E6553E962432E0970010BE4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6553E942432E0970010BE4C /* LaunchScreen.storyboard */; };
+		E65D2F702454BF1E00330A26 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D2F6F2454BF1E00330A26 /* Category.swift */; };
+		E65D2F722454BF2E00330A26 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D2F712454BF2E00330A26 /* Item.swift */; };
 		E67919D8245285F80088D14D /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67919D7245285F80088D14D /* CategoryTableViewController.swift */; };
-		E6BB697E24360B2F005AA878 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6BB697C24360B2F005AA878 /* DataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,8 +30,9 @@
 		E6553E922432E0970010BE4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6553E952432E0970010BE4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E6553E972432E0970010BE4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E65D2F6F2454BF1E00330A26 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		E65D2F712454BF2E00330A26 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E67919D7245285F80088D14D /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
-		E6BB697D24360B2F005AA878 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		F21C77589946A1CEA53273ED /* Pods_ListDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ListDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -60,7 +62,6 @@
 				8E8FA2CEDB2386EDDC685F23 /* Pods-ListDo.debug.xcconfig */,
 				1C6AAF4316A77050CD4D6E99 /* Pods-ListDo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -98,7 +99,8 @@
 		E6C518A72434354400AB472A /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				E6BB697C24360B2F005AA878 /* DataModel.xcdatamodeld */,
+				E65D2F712454BF2E00330A26 /* Item.swift */,
+				E65D2F6F2454BF1E00330A26 /* Category.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -204,13 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ListDo/Pods-ListDo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ListDo/Pods-ListDo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ListDo/Pods-ListDo-frameworks.sh\"\n";
@@ -221,15 +217,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-ListDo-checkManifestLockResult.txt",
 			);
@@ -248,8 +240,9 @@
 				E600526E244FDC44008B8DEC /* SearchBarMethods.swift in Sources */,
 				E6553E8E2432E0930010BE4C /* ListDoViewController.swift in Sources */,
 				E67919D8245285F80088D14D /* CategoryTableViewController.swift in Sources */,
-				E6BB697E24360B2F005AA878 /* DataModel.xcdatamodeld in Sources */,
+				E65D2F722454BF2E00330A26 /* Item.swift in Sources */,
 				E6553E8C2432E0930010BE4C /* AppDelegate.swift in Sources */,
+				E65D2F702454BF1E00330A26 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,19 +440,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		E6BB697C24360B2F005AA878 /* DataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				E6BB697D24360B2F005AA878 /* DataModel.xcdatamodel */,
-			);
-			currentVersion = E6BB697D24360B2F005AA878 /* DataModel.xcdatamodel */;
-			path = DataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = E6553E802432E0930010BE4C /* Project object */;
 }
