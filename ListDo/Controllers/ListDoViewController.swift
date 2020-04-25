@@ -14,6 +14,12 @@ class ListDoViewController: UITableViewController {
     
     var itemArray = [Item]()
     
+    var selectedCategory : Category? {
+        didSet {
+            loadItems()
+        }
+    }
+    
     // Will create an instance of the persistentContainer (sqlite db) and retrieve the context of the entry in the db.
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -26,7 +32,8 @@ class ListDoViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        loadItems()
+        // Since we are only requesting a particular set of items that match a category we load items for our selectedCategory variable -- via didSet
+//        loadItems()
     }
     
     // MARK: - Table View Data Source Methods
@@ -77,6 +84,8 @@ class ListDoViewController: UITableViewController {
             newItem.title = textField.text!
             // Initializes status of do list boolean (done or not done) to false
             newItem.done = false
+            
+            newItem.parentCategory = self.selectedCategory
             // Adds item to the end of array
             self.itemArray.append(newItem)
             self.saveItems()
@@ -101,7 +110,16 @@ class ListDoViewController: UITableViewController {
     }
     
     // Will load items from our sqlite db.
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
+        
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
         do {
             itemArray = try context.fetch(request)
         } catch {
